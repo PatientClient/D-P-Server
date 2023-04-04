@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const doctorController = require('../controllers/doctorController');
+const auth = require('../middleware/auth')
+
+//post login 
+router.post('/auth', auth.loginDoctor);
 
 // Get all doctors
 router.get('/', doctorController.getAllDoctors);
