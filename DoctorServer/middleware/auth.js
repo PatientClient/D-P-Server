@@ -1,37 +1,29 @@
 const jwt = require('jsonwebtoken');
-const User = require('../model/User');
-const loginUser = async (req, res, next) => {
+const Doctor = require('../model/Doctor');
+const loginDoctor = async (req, res, next) => {
 
   const {
     nationalId,
     password
   } = req.body;
-  console.log(email, password);
   try {
     // Find user by email
-    const user = await User.findOne({
+    const doctor = await Doctor.findOne({
       nationalId: nationalId
     })
-    if (!user) {
+    if (!doctor) {
       res.statusCode = 404;
       throw new Error('User not found');
     }
-    // Verify password
-    // // const isPasswordValid = await bcrypt.compare(password, user.password);
-    // if (!isPasswordValid) {
-    //   res.statusCode = 404;
-    //   throw new Error('Invalid password');
-    // }
-    if (password !== user.password) {
+    if (password !== doctor.password) {
       res.statusCode = 404;
       throw new Error('Invalid password');
-
     }
 
     // Generate JWT token
     const token = jwt.sign({
-        userId: user.passportId,
-        role: user.role
+        doctorId: doctor.id,
+        name: doctor.name,
       },
       process.env.JWTSECRET, {
         expiresIn: '1h'
@@ -74,6 +66,6 @@ const authorize = async (req, res, next) => {
 }
 
 module.exports = {
-  loginUser,
+  loginDoctor,
   authorize,
 }

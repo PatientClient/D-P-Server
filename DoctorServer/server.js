@@ -3,13 +3,20 @@ require('dotenv').config();
 const cors = require('cors');
 const activityRouter = require('./routing/activityRoute');
 const doctorRouter = require('./routing/doctorRoute');
+const errorHandler = require('./middleware/errorHandle');
+
 const connectDB = require('./config/db')
 const app = express();
 app.use(express.json());
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 app.use('/api/activities', require('./routing/activityRoute'));
 app.use('/api/doctor', doctorRouter);
 app.use('/api/user', require('./routing/userRoute'));
+app.use(errorHandler);
+
 const port = process.env.PORT || 5001;
 async function startServer() {
   try {
