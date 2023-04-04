@@ -5,7 +5,8 @@ const User = require('../model/User');
 // READ all activities
 exports.getAllActivities = async (req, res) => {
   try {
-    const activities = await Activity.find().populate('createdBy');
+    const activities = await Activity.find()
+
     res.status(200).json(activities);
   } catch (error) {
     console.error(error);
@@ -18,7 +19,7 @@ exports.getAllActivities = async (req, res) => {
 // READ a specific activity by ID
 exports.getActivityById = async (req, res) => {
   try {
-    const activity = await Activity.findById(req.params.id).populate('createdBy');
+    const activity = await Activity.findById(req.params.id);
     if (!activity) {
       return res.status(404).json({
         message: 'Activity not found'
@@ -39,7 +40,7 @@ exports.addActivityFeedback = async (req, res) => {
   const feedback = req.body;
 
   try {
-    const activity = await Activity.findById(activityId).populate('createdBy').exec();
+    const activity = await Activity.findById(activityId);
     if (!activity) {
       return res.status(404).json({
         message: 'Activity not found'
