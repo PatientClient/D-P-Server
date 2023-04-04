@@ -12,6 +12,7 @@ app.use(cors({
   credentials: true
 }));
 app.use('/api/user', require('./routing/userRoute'));
+app.use('/api/activities', activityRouter);
 app.use(errorHandler);
 
 const port = process.env.PORT || 5002;
