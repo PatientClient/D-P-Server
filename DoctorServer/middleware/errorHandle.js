@@ -1,50 +1,36 @@
 const errorHandler = (err, req, res, next) => {
   const statusCode = res.statusCode ? res.statusCode : 500;
   console.error(err.stack);
+  let errorResponse = {
+    error: {
+      title: "",
+      message: err.message,
+      stacktrace: err.stack
+    }
+  };
   switch (statusCode) {
     case 400:
-      res.json({
-        title: "Bad Request",
-        message: err.message,
-        stackrace: err.stack
-      });
+      errorResponse.error.title = "Bad Request";
       break;
     case 401:
-      res.json({
-        title: "Unauthorized",
-        message: err.message,
-        stackrace: err.stack
-      });
+      errorResponse.error.title = "Unauthorized";
       break;
     case 403:
-      res.json({
-        title: "Forbidden",
-        message: err.message,
-        stackrace: err.stack
-      });
+      errorResponse.error.title = "Forbidden";
       break;
     case 404:
-      res.json({
-        title: "Not Found",
-        message: err.message,
-        stackrace: err.stack
-      });
+      errorResponse.error.title = "Not Found";
       break;
     case 500:
-      res.json({
-        title: "Internal Server Error",
-        message: "Something went wrong on the server.",
-        stackrace: err.stack
-      });
+      errorResponse.error.title = "Internal Server Error";
+      errorResponse.error.message = "Something went wrong on the server.";
       break;
     default:
-      res.json({
-        title: "Unknown Error",
-        message: "An unknown error occurred.",
-        stackrace: err.stack
-      });
+      errorResponse.error.title = "Unknown Error";
+      errorResponse.error.message = "An unknown error occurred.";
       break;
   }
+  res.status(statusCode).json(errorResponse);
 };
 
 module.exports = errorHandler;

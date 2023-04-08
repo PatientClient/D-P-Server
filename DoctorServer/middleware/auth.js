@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Doctor = require('../model/Doctor');
 const loginDoctor = async (req, res, next) => {
-
   const {
     nationalId,
     password
@@ -37,7 +36,8 @@ const loginDoctor = async (req, res, next) => {
     });
 
     res.json({
-      success: true
+      success: true,
+      token: token
     });
   } catch (error) {
     next(error);

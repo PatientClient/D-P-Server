@@ -1,11 +1,13 @@
 const Doctor = require('../model/Doctor');
-
+const jwt = require('jsonwebtoken');
 const getAllDoctors = async (req, res) => {
   try {
     const doctors = await Doctor.find();
     res.json(doctors);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({
+      message: err.message
+    });
   }
 };
 
@@ -13,11 +15,15 @@ const getDoctorById = async (req, res) => {
   try {
     const doctor = await Doctor.findById(req.params.id);
     if (!doctor) {
-      return res.status(404).json({ message: 'Doctor not found' });
+      return res.status(404).json({
+        message: 'Doctor not found'
+      });
     }
     res.json(doctor);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({
+      message: err.message
+    });
   }
 };
 
@@ -34,7 +40,9 @@ const createDoctor = async (req, res) => {
     const newDoctor = await doctor.save();
     res.status(201).json(newDoctor);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({
+      message: err.message
+    });
   }
 };
 
@@ -42,7 +50,9 @@ const updateDoctor = async (req, res) => {
   try {
     const doctor = await Doctor.findById(req.params.id);
     if (!doctor) {
-      return res.status(404).json({ message: 'Doctor not found' });
+      return res.status(404).json({
+        message: 'Doctor not found'
+      });
     }
     doctor.nationalId = req.body.nationalId || doctor.nationalId;
     doctor.name = req.body.name || doctor.name;
@@ -53,7 +63,9 @@ const updateDoctor = async (req, res) => {
     const updatedDoctor = await doctor.save();
     res.json(updatedDoctor);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({
+      message: err.message
+    });
   }
 };
 
@@ -61,19 +73,54 @@ const deleteDoctor = async (req, res) => {
   try {
     const doctor = await Doctor.findById(req.params.id);
     if (!doctor) {
-      return res.status(404).json({ message: 'Doctor not found' });
+      return res.status(404).json({
+        message: 'Doctor not found'
+      });
     }
-    await Doctor.deleteOne({ _id: req.params.id });
-    res.json({ message: 'Doctor deleted successfully' });
+    await Doctor.deleteOne({
+      _id: req.params.id
+    });
+    res.json({
+      message: 'Doctor deleted successfully'
+    });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({
+      message: err.message
+    });
   }
 };
 
+//get logged in User 
+const loggedInDoctor = async (req, res, next) => {
+
+  const {
+    token
+  } = req.body;
+  (token);
+
+  try {
+    const decryptToken = jwt.verify(token, process.env.JWTSECRET);
+    if (!decryptToken) {
+      res.status(403)
+      throw new Error("Invalid token")
+    }
+    (decryptToken);
+    // Find user by email
+    const doctor = await Doctor.findOne({
+      _id: decryptToken.doctorId
+    })
+    res.json({
+      doctor
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 module.exports = {
   getAllDoctors,
   getDoctorById,
   createDoctor,
   updateDoctor,
-  deleteDoctor
+  deleteDoctor,
+  loggedInDoctor
 };

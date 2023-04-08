@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 
+const statuses = [
+  "NotActive", "InProgress", "Active"
+];
+
 const userSchema = new mongoose.Schema({
   nationalId: {
     type: String,
@@ -39,7 +43,11 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Doctor',
   },
-
+  status: {
+    type: String,
+    enum: statuses,
+    default: 'NotActive'
+  }
 });
 const User = mongoose.model('User', userSchema);
 module.exports = User

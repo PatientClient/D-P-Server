@@ -21,10 +21,8 @@ exports.createActivity = async (req, res) => {
     res.status(201).json(activity);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      message: 'Server Error'
-    });
-  }
+    res.status(500)
+    throw new Error(error.message);  }
 };
 
 // READ all activities
@@ -34,9 +32,8 @@ exports.getAllActivities = async (req, res) => {
     res.status(200).json(activities);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      message: 'Server Error'
-    });
+    res.status(500)
+    throw new Error(error.message);
   }
 };
 
@@ -53,9 +50,8 @@ exports.getActivityById = async (req, res) => {
     res.status(200).json(activity);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      message: 'Server Error'
-    });
+    res.status(500)
+    throw new Error(error.message);
   }
 };
 
@@ -78,9 +74,8 @@ exports.updateActivity = async (req, res) => {
     res.status(200).json(activity);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      message: 'Server Error'
-    });
+    res.status(500)
+    throw new Error(error.message);
   }
 };
 
@@ -101,9 +96,8 @@ exports.deleteActivity = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      message: 'Server Error'
-    });
+    res.status(500)
+    throw new Error(error.message);
   }
 };
 
@@ -128,9 +122,8 @@ exports.addActivityFeedback = async (req, res) => {
     return res.status(201).json(activity);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      message: 'Server Error'
-    });
+    res.status(500)
+    throw new Error(error.message);
   }
 };
 
@@ -157,9 +150,8 @@ exports.removeActivityFeedback = async (req, res) => {
     res.status(200).json(activity);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      message: 'Server Error'
-    });
+    res.status(500)
+    throw new Error(error.message);
   }
 };
 
@@ -193,9 +185,8 @@ exports.addPhoto = async (req, res) => {
     res.status(200).json(activity);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      message: 'Server Error'
-    });
+    res.status(500)
+    throw new Error(error.message);
   }
 };
 
@@ -227,9 +218,8 @@ exports.addVideo = async (req, res) => {
     res.status(200).json(activity);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      message: 'Server Error'
-    });
+    res.status(500)
+    throw new Error(error.message);
   }
 };
 
@@ -254,9 +244,8 @@ exports.deleteActivityPhoto = async (req, res) => {
     res.status(200).json(activity);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      message: 'Server Error'
-    });
+    res.status(500)
+    throw new Error(error.message);
   }
 };
 
@@ -282,8 +271,7 @@ exports.deleteActivityVideo = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      message: 'Server Error'
-    });
+    res.status(500)
+    throw new Error(error.message);
   }
 };

@@ -14,7 +14,7 @@ const loginUser = async (req, res, next) => {
       res.statusCode = 404;
       throw new Error('User not found');
     }
-    console.log(user);
+    (user);
     if (password !== user.password) {
       res.statusCode = 404;
       throw new Error('Invalid password');
