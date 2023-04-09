@@ -1,11 +1,12 @@
 const Activity = require('../model/Activity');
 const User = require('../model/User');
+const Doctor = require('../model/Doctor');
 
 
 // READ all activities
 exports.getAllActivities = async (req, res) => {
   try {
-    const activities = await Activity.find()
+    const activities = await Activity.find().populate('createdBy')
 
     res.status(200).json(activities);
   } catch (error) {
@@ -18,7 +19,7 @@ exports.getAllActivities = async (req, res) => {
 // READ a specific activity by ID
 exports.getActivityById = async (req, res) => {
   try {
-    const activity = await Activity.findById(req.params.id);
+    const activity = await Activity.findById(req.params.id).populate('feedback.createdBy');
     if (!activity) {
       return res.status(404).json({
         message: 'Activity not found'
@@ -32,13 +33,36 @@ exports.getActivityById = async (req, res) => {
   }
 };
 
+// UPDATE an activity by ID
+exports.updateActivity = async (req, res) => {
+  try {
+    const activity = await Activity.findById(req.params.id);
+    if (!activity) {
+      return res.status(404).json({
+        message: 'Activity not found'
+      });
+    }
+    Object.keys(req.body).forEach((key) => {
+      if (key in activity) {
+        activity[key] = req.body[key];
+      }
+    });
+
+    await activity.save();
+    res.status(200).json(activity);
+  } catch (error) {
+    console.error(error);
+    res.status(500)
+    throw new Error(error.message);
+  }
+};
 // ADD a new feedback to an activity
 exports.addActivityFeedback = async (req, res) => {
   const activityId = req.params.id;
   const feedback = req.body;
 
   try {
-    const activity = await Activity.findById(activityId);
+    const activity = await Activity.findById(activityId).populate('feedback.createdBy');
     if (!activity) {
       return res.status(404).json({
         message: 'Activity not found'
@@ -122,4 +146,3 @@ exports.addVideo = async (req, res) => {
     throw new Error(error.message);
   }
 };
-

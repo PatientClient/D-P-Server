@@ -9,9 +9,10 @@ const connectDB = require('./config/db')
 const app = express();
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175'],
   credentials: true
 }));
+
 app.use('/api/activities', require('./routing/activityRoute'));
 app.use('/api/doctor', doctorRouter);
 app.use('/api/user', require('./routing/userRoute'));
