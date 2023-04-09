@@ -8,6 +8,8 @@ router.get('/', activityController.getAllActivities);
 
 // READ a specific activity by ID
 router.get('/:id', activityController.getActivityById);
+//update activity by id
+router.patch('/:id', activityController.updateActivity);
 
 // ADD a new feedback to an activity
 router.post('/:id/feedback', activityController.addActivityFeedback);
@@ -17,5 +19,6 @@ router.post('/:id/photos', activityController.addPhoto);
 
 // ADD a new video to an activity by ID
 router.post('/:id/videos', activityController.addVideo);
+
 
 module.exports = router;

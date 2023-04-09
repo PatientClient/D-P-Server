@@ -5,6 +5,7 @@ const feedbackSchema = new Schema({
   description: { type: String, required: true },
   createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   createdAt: { type: Date, default: Date.now },
+  rate: { type:Number, default: 0 },
 });
 
 const photoSchema = new Schema({
@@ -25,6 +26,7 @@ const activitySchema = new Schema({
   duration: { type: Number, required: true },
   createdBy: { type: Schema.Types.ObjectId, ref: 'Doctor', required: true},
   createdAt: { type: Date, default: Date.now },
+  rate: { type: Number,default: 0 },
   feedback: [feedbackSchema],
   photos: [photoSchema],
   videos: [videoSchema],

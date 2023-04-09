@@ -31,7 +31,7 @@ const loginUser = async (req, res, next) => {
     );
 
     // Set JWT token as a cookie in the response
-    res.cookie('jwt', token, {
+    res.cookie('jwtUser', token, {
       httpOnly: true,
       expires: new Date(Date.now() + 60 * 60 * 1000) // expires in 1 hour
     });
@@ -46,7 +46,7 @@ const loginUser = async (req, res, next) => {
 
 const authorize = async (req, res, next) => {
   const cookie = req.cookies;
-  const token = cookie.jwt;
+  const token = cookie.jwtUser;
   if (!token) {
     return res.status(401).send({
       message: 'Unauthorized'
