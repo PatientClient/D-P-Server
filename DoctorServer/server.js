@@ -5,7 +5,8 @@ const activityRouter = require('./routing/activityRoute');
 const doctorRouter = require('./routing/doctorRoute');
 const errorHandler = require('./middleware/errorHandle');
 
-const connectDB = require('./config/db')
+const connectDB = require('./config/db');
+const { consumeMessages } = require('./consumer');
 const app = express();
 app.use(express.json());
 app.use(cors({
@@ -38,3 +39,4 @@ async function startServer() {
 }
 
 startServer();
+consumeMessages();
