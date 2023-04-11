@@ -6,7 +6,9 @@ const doctorRouter = require('./routing/doctorRoute');
 const errorHandler = require('./middleware/errorHandle');
 
 const connectDB = require('./config/db');
-const { consumeMessages } = require('./consumer');
+const {
+  consumeMessages
+} = require('./consumer');
 const app = express();
 app.use(express.json());
 app.use(cors({
@@ -17,6 +19,7 @@ app.use(cors({
 app.use('/api/activities', require('./routing/activityRoute'));
 app.use('/api/doctor', doctorRouter);
 app.use('/api/user', require('./routing/userRoute'));
+app.use('/api/task', require('./routing/taskRoute'));
 app.use(errorHandler);
 
 const port = process.env.PORT || 5001;
