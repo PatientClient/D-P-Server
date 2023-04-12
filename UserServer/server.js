@@ -20,6 +20,7 @@ app.use(cors({
 app.use('/api/user', require('./routing/userRoute'));
 app.use('/api/activities', activityRouter);
 app.use('/api/producer', producerRouter);
+app.use('/api/task', require('./routing/taskRoute'));
 app.use(errorHandler);
 
 
