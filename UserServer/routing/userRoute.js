@@ -5,6 +5,9 @@ const auth = require('../middleware/auth');
 
 router.post('/userAuth', auth.loginUser);
 
+
+router.patch('/:id', userController.updateUser);
+
 // Update a user by ID
 router.patch('/:id', userController.updateUser);
 

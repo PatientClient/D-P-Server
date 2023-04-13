@@ -4,6 +4,9 @@ const {
 const Activity = require('../model/Activity');
 const User = require('../model/User');
 const jwt = require('jsonwebtoken');
+const {
+  sendLogfunction
+} = require('./producerCotroller');
 
 // Update a user by ID
 exports.updateUser = async (req, res) => {
@@ -20,6 +23,18 @@ exports.updateUser = async (req, res) => {
       }
     });
     const updatedUser = await user.save();
+    if (req.body.status) {
+      await sendLogfunction('UP', {
+        userId: updatedUser._id,
+        status: updatedUser.status
+      })
+      await sendLogfunction('UL', {
+        userId: updatedUser._id,
+        status: 'status is ',
+        userStatus: updatedUser.status,
+        BadgeColor: "info"
+      })
+    }
     res.status(200).json(updatedUser);
   } catch (error) {
     throw new Error(error.message);

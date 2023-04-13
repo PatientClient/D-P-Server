@@ -12,6 +12,18 @@ const getAllTasks = async (req, res, next) => {
   }
 };
 
+// get All by user Id
+const getUserTasks = async (req, res, next) => {
+  try {
+    const tasks = await Task.find({
+      assignedTo: req.params.id
+    }).populate('assignedTo');
+    res.json(tasks);
+  } catch (error) {
+    next(error); // pass error to next middleware/handler
+  }
+};
+
 // Retrieve a single task by ID
 const getTaskById = async (req, res, next) => {
   try {
@@ -49,4 +61,5 @@ module.exports = {
   getAllTasks,
   getTaskById,
   updateTask,
+  getUserTasks
 };
