@@ -18,6 +18,18 @@ const sendLog = async (req, res, next) => {
   }
 }
 
+// Define the sendLog middleware function
+const sendLogfunction = async (logType, message, next) => {
+  try {
+    await producer.publishMessage(logType, message)
+  } catch (error) {
+    console.error('An error occurred:', error);
+    res.status(500).json({
+      error: 'Internal server error'
+    });
+  }
+}
 module.exports = {
-  sendLog
+  sendLog,
+  sendLogfunction
 }
