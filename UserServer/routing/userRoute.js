@@ -16,6 +16,7 @@ router.post('/assignActivityToUser', userController.addActivityToUser);
 
 //get signed In user
 router.get('/signedInUser', userController.signedInUser);
+router.get('/getUserName/:id', userController.getUserNameById);
 
 
 //update specific activity in user

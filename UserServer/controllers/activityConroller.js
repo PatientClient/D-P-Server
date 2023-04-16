@@ -19,7 +19,7 @@ exports.getAllActivities = async (req, res) => {
 // READ a specific activity by ID
 exports.getActivityById = async (req, res) => {
   try {
-    const activity = await Activity.findById(req.params.id).populate('feedback.createdBy');
+    const activity = await Activity.findById(req.params.id).populate('createdBy').populate('feedback.createdBy');
     if (!activity) {
       return res.status(404).json({
         message: 'Activity not found'
