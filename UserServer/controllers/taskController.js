@@ -1,5 +1,8 @@
 const Task = require("../model/Task");
 const User = require("../model/User");
+const {
+  sendLogfunction
+} = require("./producerCotroller");
 
 
 // Retrieve all tasks
@@ -15,9 +18,14 @@ const getAllTasks = async (req, res, next) => {
 // get All by user Id
 const getUserTasks = async (req, res, next) => {
   try {
+    console.log(req.params.id)
     const tasks = await Task.find({
       assignedTo: req.params.id
     }).populate('assignedTo');
+    if (!tasks || !tasks.length > 0) {
+      res.status(404)
+      throw new Error('no tasks')
+    }
     res.json(tasks);
   } catch (error) {
     next(error); // pass error to next middleware/handler
@@ -49,10 +57,40 @@ const updateTask = async (req, res, next) => {
         task[key] = req.body[key];
       }
     });
+
     const updatedTask = await task.save();
+
+
+    sendLogfunction('UL', {
+      userId: task.assignedTo,
+      status: `task ${task.title}`||'',
+      userStatus: task.status || 'Complete',
+      BadgeColor: "success",
+    })
     res.status(200).json(updatedTask);
   } catch (error) {
     next(error); // pass error to next middleware/handler
+  }
+};
+
+
+const restStatus24 = async () => {
+
+  try {
+    const tasks = await Task.find();
+    if (!tasks) {
+      return res.status(404).json({
+        message: 'Task not found'
+      });
+    }
+
+    tasks.forEach(async (task) => {
+      task.status = "Pending";
+      await task.save();
+    });
+    console.log('tasks reset');
+  } catch (error) {
+    console.error(error);
   }
 };
 
@@ -61,5 +99,6 @@ module.exports = {
   getAllTasks,
   getTaskById,
   updateTask,
-  getUserTasks
+  getUserTasks,
+  restStatus24
 };

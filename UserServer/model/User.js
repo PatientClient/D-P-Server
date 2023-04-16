@@ -53,6 +53,11 @@ const userSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  lastUpdate: {
+    type: Date,
+    required: true,
+    default: Date.now
+  },
   doctor: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Doctor',

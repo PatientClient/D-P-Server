@@ -6,6 +6,7 @@ const producerRouter = require('./routing/producerRoutes');
 const errorHandler = require('./middleware/errorHandle');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db')
+require('./sceduleFunctions/updateActivity24')
 const app = express();
 
 const Producer = require('./producer')
